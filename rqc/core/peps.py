@@ -44,9 +44,10 @@ class PEPS:
 		self.data[self.__sgi(key)] = astensor(value)
 
 	def copy(self):
-		r = type(self)(self.m, self.n)
-		for i in range(self.m):
-			for j in range(self.n):
+		m, n = self.shape
+		r = type(self)(self.shape)
+		for i in range(m):
+			for j in range(n):
 				r[(i, j)] = self[(i, j)].copy()
 		return r
 

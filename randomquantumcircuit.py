@@ -177,7 +177,7 @@ m = 8
 # height
 n = 8
 # circuit depth
-depth = 16
+depth = 10
 
 
 maxbonddimension = 100
