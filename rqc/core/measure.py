@@ -2,11 +2,12 @@
 # @Author: guochu
 # @Date:   2020-11-09 10:55:24
 # @Last Modified by:   guochu
-# @Last Modified time: 2020-11-09 11:23:08
+# @Last Modified time: 2020-11-11 19:18:07
 from numpy.random import uniform
 from numpy import sqrt
 from rqc.tensor import astensor 
 from .circuit2d import OneBodyGate
+from .overlap import close_peps, brute_force_1
 
 __all__ = ['OneBodyObserver']
 
@@ -41,10 +42,8 @@ class OneBodyObserver:
 		up = astensor([[1., 0.], [0., 0.]])
 		down = astensor([[0., 0.], [0., 1.]])
 		up_gate = OneBodyGate(self.key, up)
-		# ms = close_peps(state, state, {self.key:up})
-		state_1 = state.copy()
-		up_gate.apply(state, maxbonddimension=maxbonddimension, svdcutoff=svdcutoff, verbose=verbose)
-		s = state_1.cross(state, conj=True, scale_factor=1.)
+		ms = close_peps(state, state, {self.key:up})
+		s = brute_force_1(ms)
 		tol = 1.0e-6
 		if s.imag > tol:
 			warnings.warn('the imaginary part of result is larger than'+str(tol))
